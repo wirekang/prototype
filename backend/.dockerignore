@@ -1,8 +1,10 @@
-node_modules/
-dist/
 .vscode/
-npm-debug.log
-*.md
+dist/
+node_modules/
 **/*.spec.ts
-docker-compose.yml
+*.md
+docker-compose*
+Dockerfile
+Makefile
+npm-debug.log
 .gitignore
