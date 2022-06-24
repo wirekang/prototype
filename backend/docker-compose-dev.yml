@@ -1,8 +1,8 @@
 version: '3.8'
 services:
   backend:
-    container_name: my_backend
-    image: my-backend:1.0.0
+    container_name: my_backend_dev
+    image: my-backend-dev:1.0.0
     build:
       context: .
       dockerfile: ./Dockerfile
