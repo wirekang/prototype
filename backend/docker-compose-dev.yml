@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  backend:
+    container_name: my_backend
+    image: my-backend:1.0.0
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run start:debug
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3000
+      - 9229:9229
+
+    networks:
+      - my-network
+    volumes:
+      - ./:/usr/src/app
+
+networks:
+  my-network:
