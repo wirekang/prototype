@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vscode/
+npm-debug.log
+*.md
+**/*.spec.ts
+docker-compose.yml
+.gitignore
