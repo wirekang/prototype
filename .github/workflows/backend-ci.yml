@@ -2,13 +2,14 @@ name: Backend CI
 
 on:
   push:
-    branches: ["development", "production"]
+    branches: ["development"]
     paths:
       - "backend/**"
   pull_request:
     branches: ["development", "production"]
     paths:
       - "backend/**"
+  workflow_call:
 
 jobs:
   test:

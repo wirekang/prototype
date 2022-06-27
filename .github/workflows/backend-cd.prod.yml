@@ -9,8 +9,8 @@ on:
 
 jobs:
   deploy:
-    environment: production
     runs-on: ubuntu-20.04
+    environment: production
     defaults:
       run:
         shell: bash
