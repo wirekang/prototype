@@ -50,8 +50,8 @@ jobs:
       - name: Set DOCKER_REGISTRY
         run: echo "DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}" >> $GITHUB_ENV
 
-      - run: docker compose -f docker-compose.prod.yml build
-      - run: docker compose -f docker-compose.prod.yml push
+      # - run: docker compose -f docker-compose.prod.yml build
+      # - run: docker compose -f docker-compose.prod.yml push
 
       - name: Set DOCKER_HOST
         run: echo "DOCKER_HOST=${{ secrets.DOCKER_HOST }}" >> $GITHUB_ENV
