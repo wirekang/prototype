@@ -1,0 +1,30 @@
+version: '3'
+services:
+  api:
+    image: ${DOCKER_REPO}/api
+    container_name: my-api-prod
+    build:
+      context: .
+      dockerfile: ./Dockerfile.prod
+    environment:
+      NODE_ENV: production
+    ports:
+      - 4444:4444
+    networks:
+      - my-network
+    restart: always
+
+  nginx:
+    image: ${DOCKER_REPO}/nginx
+    container_name: my-nginx-prod
+    build:
+      context: ./nginx
+      dockerfile: ./Dockerfile.prod
+    ports:
+      - 80:80
+    networks:
+      - my-network
+    restart: always
+
+networks:
+  my-network:
