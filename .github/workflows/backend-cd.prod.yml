@@ -61,6 +61,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.KEY }}
 
+      - run: |
+          aws ecr get-login-password --region ap-northeast-2 |
+            docker login --username AWS --password-stdin $DOCKER_REGISTRY
+
       # - name: Login to ECR for remote Docker host
       #   uses: docker/login-action@v2
       #   with:
