@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('return check', () => {
-      expect(appController.getHello()).toBe('GO TO HELL');
+      expect(appController.getHello()).toBe('GO TO HELLO');
     });
   });
 });
