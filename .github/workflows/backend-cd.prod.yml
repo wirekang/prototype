@@ -7,6 +7,10 @@ on:
       - "backend/**"
   workflow_dispatch:
 
+env:
+  docker-registry: 348881545837.dkr.ecr.ap-northeast-2.amazonaws.com
+  docker-compose-file: docker-compose.prod.yml
+
 jobs:
   deploy:
     runs-on: ubuntu-20.04
@@ -39,22 +43,22 @@ jobs:
       - name: Login to ECR
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
+          registry: ${{ env.docker-registry }}
 
       - name: Create ECR Repositories
         run: |
-          for r in $(grep 'image: \${DOCKER_REGISTRY}' docker-compose.prod.yml | sed -e 's/^.*\///'); do
+          for r in $(grep 'image: \${DOCKER_REGISTRY}' ${{ env.docker-compose-file }} | sed -e 's/^.*\///'); do
             aws ecr describe-repositories --repository-names $r || aws ecr create-repository --repository-name $r
           done
 
       - name: Set DOCKER_REGISTRY
-        run: echo "DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}" >> $GITHUB_ENV
+        run: echo "DOCKER_REGISTRY=${{ env.docker-registry }}" >> $GITHUB_ENV
 
-      - run: docker compose -f docker-compose.prod.yml build
-      - run: docker compose -f docker-compose.prod.yml push
+      - run: docker compose -f ${{ env.docker-compose-file }} build
+      - run: docker compose -f ${{ env.docker-compose-file }} push
 
       - name: Set DOCKER_HOST
-        run: echo "DOCKER_HOST=ssh://${{ secrets.REMOTE_USER}}@${{ secrets.REMOTE_HOST }}" >> $GITHUB_ENV
+        run: echo "DOCKER_HOST=ssh://${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}" >> $GITHUB_ENV
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.4
@@ -67,8 +71,8 @@ jobs:
       - name: Login to ECR for remote Docker host
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
+          registry: ${{ env.docker-registry }}
 
-      - run: docker compose -f docker-compose.prod.yml pull
-      - run: docker compose -f docker-compose.prod.yml up -d
+      - run: docker compose -f ${{ env.docker-compose-file }} pull
+      - run: docker compose -f ${{ env.docker-compose-file }} up -d
       - run: docker image prune -f
