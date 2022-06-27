@@ -43,7 +43,13 @@ jobs:
       # - name: Login to ECR
       # uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Login ECR Registry
+      - name: Login to ECR
         uses: docker/login-action@v2
         with:
           registry: ${{ secrets.DOCKER_REGISTRY }}
+
+      - name: Create ECR Repositories
+        run: |
+          for r in $(grep 'image: \${DOCKER_REPO}' docker-compose.prod.yml | sed -e 's/^.*\///'); do
+            aws ecr describe-repositories --repository-names $r || aws ecr create-repository --repository-name $r
+          done
