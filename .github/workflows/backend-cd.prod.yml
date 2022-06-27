@@ -30,6 +30,8 @@ jobs:
       - run: yarn test
 
       - run: docker compose -f docker-compose.prod.yml build
+        env:
+          DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
