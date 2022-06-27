@@ -24,12 +24,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-        run: yarn install --frozen-lockfile
 
-      - name: Test
-        run: |
-          yarn lint
-          yarn test
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
 
       - run: docker compose -f docker-compose.prod.yml build
 
