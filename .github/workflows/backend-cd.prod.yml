@@ -44,6 +44,6 @@ jobs:
       - name: Login ECR Registry
         uses: docker/login-action@v2
         with:
-          registry: 348881545837.dkr.ecr.ap-northeast-2.amazonaws.com
+          registry: ${{ secrets.DOCKER_REGISTRY }}
 
       - run: docker compose -f docker-compose.prod.yml build

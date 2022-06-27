@@ -1,7 +1,7 @@
 version: '3'
 services:
   api:
-    image: ${DOCKER_REPO}/api
+    image: ${DOCKER_REGISTRY}/api
     container_name: my-api-prod
     build:
       context: .
@@ -15,7 +15,7 @@ services:
     restart: always
 
   nginx:
-    image: ${DOCKER_REPO}/nginx
+    image: ${DOCKER_REGISTRY}/nginx
     container_name: my-nginx-prod
     build:
       context: ./nginx
