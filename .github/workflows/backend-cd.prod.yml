@@ -50,6 +50,6 @@ jobs:
 
       - name: Create ECR Repositories
         run: |
-          for r in $(grep 'image: \${DOCKER_REPO}' docker-compose.prod.yml | sed -e 's/^.*\///'); do
+          for r in $(grep 'image: \${DOCKER_REGISTRY}' docker-compose.prod.yml | sed -e 's/^.*\///'); do
             aws ecr describe-repositories --repository-names $r || aws ecr create-repository --repository-name $r
           done
