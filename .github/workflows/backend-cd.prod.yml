@@ -70,4 +70,4 @@ jobs:
           registry: ${{ secrets.DOCKER_REGISTRY }}
 
       - run: docker compose -f docker-compose.prod.yml pull
-      - run: docker compose -f docker-compose.prod.yml up -d
+      # - run: docker compose -f docker-compose.prod.yml up -d
