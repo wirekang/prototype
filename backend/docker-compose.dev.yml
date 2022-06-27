@@ -1,0 +1,32 @@
+version: '3'
+services:
+  api:
+    container_name: my-api-dev
+    image: my-api-dev
+    build:
+      dockerfile: ./Dockerfile.dev
+    environment:
+      NODE_ENV: development
+    ports:
+      - 9229:9229
+    expose:
+      - 4444
+    volumes:
+      - ./:/app
+      - /app/node_modules/
+    networks:
+      - my-network
+
+  nginx:
+    image: my-nginx-dev
+    container_name: my-nginx-container
+    build:
+      context: ./nginx
+      dockerfile: ./dev.Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - my-network
+
+networks:
+  my-network:

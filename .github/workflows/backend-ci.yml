@@ -1,0 +1,32 @@
+name: Backend CI
+
+on:
+  push:
+    branches: ["development"]
+    paths:
+      - "backend/**"
+  pull_request:
+    branches: ["development"]
+    paths:
+      - "backend/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash
+        working-directory: $GITHUB_WORKSPACE/prototype/backend
+
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v3
+
+      - name: Setup
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn lint
+      - run: yarn test
