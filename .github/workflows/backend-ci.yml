@@ -16,7 +16,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: $GITHUB_WORKSPACE/prototype/backend
+        working-directory: backend
 
     steps:
       - name: Checkout
