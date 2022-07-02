@@ -1,3 +1,3 @@
 #!/bin/bash
-source env/production
-ssh -i $SERVER_KEY $SERVER_USER@$SERVER_HOST
+. secrets/out/production-server
+ssh -i secrets/key.pem $SERVER_USER@$SERVER_HOST

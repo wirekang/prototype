@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import * as fs from 'fs';
 
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'GO TO HELLO';
+    return `NODE_ENV: ${process.env.NODE_ENV}<br/>config: ${fs
+      .readFileSync('config.json')
+      .toString()}`;
   }
 }

@@ -8,3 +8,5 @@ Dockerfile
 Makefile
 npm-debug.log
 .gitignore
+password
+secrets*

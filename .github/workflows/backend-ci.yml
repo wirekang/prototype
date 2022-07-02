@@ -30,4 +30,7 @@ jobs:
 
       - run: yarn install --frozen-lockfile
       - run: yarn lint
+      - run: |
+          . scripts/decrypt.sh
+          cp secrets/out/config.test.json config.json
       - run: yarn test

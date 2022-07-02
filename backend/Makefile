@@ -7,3 +7,9 @@ debug:
 
 ssh-production:
 	source scripts/ssh-production.sh
+
+encrypt:
+	PASSWORD=$$(cat password) . scripts/encrypt.sh
+
+decrypt:
+	PASSWORD=$$(cat password) . scripts/decrypt.sh
