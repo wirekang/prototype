@@ -37,3 +37,4 @@ lerna-debug.log*
 password
 secrets/src
 secrets/out
+nginx/localhost-ssl/

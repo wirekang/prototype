@@ -1,0 +1,53 @@
+version: '3'
+services:
+  api:
+    container_name: my-api-local
+    image: my-api-local
+    build:
+      dockerfile: ./Dockerfile.local
+    environment:
+      NODE_ENV: development
+    ports:
+      - 9229:9229
+    expose:
+      - 4444
+    networks:
+      - my-network
+    restart: always
+    volumes:
+      - ./:/app
+      - type: bind
+        source: ./secrets/out/config.local.json
+        target: /app/config.json
+
+  nginx:
+    image: nginx:latest
+    container_name: my-nginx-local
+    ports:
+      - 443:443
+    networks:
+      - my-network
+    restart: always
+    volumes:
+      - type: bind
+        source: ./nginx/nginx.local.conf
+        target: /etc/nginx/nginx.conf
+      - ./nginx/localhost-ssl:/etc/nginx/ssl/live/localhost
+
+  db:
+    image: mariadb:10.6
+    container_name: my-db-local
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/conf.local:/etc/mysql/conf.d
+      - ./db/init.local:/docker-entrypoint-initdb.d
+    environment:
+      MARIADB_ROOT_PASSWORD: asdf
+      TZ: Asia/Seoul
+    networks:
+      - my-network
+    restart: always
+
+networks:
+  my-network:
