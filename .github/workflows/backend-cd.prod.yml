@@ -22,11 +22,19 @@ jobs:
 
       - run: yarn install --frozen-lockfile
       - run: yarn lint
+
       - run: PASSWORD=${{secrets.PASSWORD}} . scripts/decrypt.sh
+      - run: cat "secrets/out/github-actions.env" >> $GITHUB_ENV
       - run: cp secrets/out/config.test.json config.json
+
       - run: yarn test
+
       - name: Configure AWS Credentials
-        run: cat "secrets/out/github-actions.env" >> $GITHUB_ENV
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: $AWS_ACCESS_KEY_ID
+          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          aws-region: $AWS_REGION
 
       - name: Login to ECR
         uses: docker/login-action@v2
