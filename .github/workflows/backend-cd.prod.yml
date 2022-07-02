@@ -36,14 +36,14 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: $aws_access_key_id
-          aws-secret-access-key: $aws_secret_access_key
-          aws-region: $aws_region
+          aws-access-key-id: ${{env.aws_access_key_id}}
+          aws-secret-access-key: ${{env.aws_secret_access_key}}
+          aws-region: ${{env.aws_region}}
 
       - name: Login to ECR
         uses: docker/login-action@v2
         with:
-          registry: $docker-registry
+          registry: ${{env.docker-registry}}
 
       - name: Create ECR Repositories
         run: |
@@ -54,29 +54,29 @@ jobs:
           done
 
       - name: Set DOCKER_REGISTRY
-        run: echo "DOCKER_REGISTRY=$docker_registry" >> $GITHUB_ENV
+        run: echo "DOCKER_REGISTRY=${{env.docker_registry}}" >> $GITHUB_ENV
 
-      - run: docker compose -f $docker_compose_file build
-      - run: docker compose -f $docker_compose_file push
+      - run: docker compose -f ${{env.docker_compose_file}} build
+      - run: docker compose -f ${{env.docker_compose_file}} push
 
       - name: Set DOCKER_HOST
-        run: echo "DOCKER_HOST=ssh://$remote_user@$remote_host" >> $GITHUB_ENV
+        run: echo "DOCKER_HOST=ssh://${{env.remote_user}}@${{env.remote_host}}" >> $GITHUB_ENV
 
       - run: echo "SSH_KEY=$(cat secrets/out/key.pem)" >> $GITHUB_ENV
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: $SSH_KEY
+          ssh-private-key: ${{env.SSH_KEY}}
 
       - name: Append to known_hosts
-        run: ssh-keyscan -H $remote_host >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H ${{env.remote_host}} >> ~/.ssh/known_hosts
 
       - name: Login to ECR for remote Docker host
         uses: docker/login-action@v2
         with:
-          registry: $docker_registry
+          registry: ${{env.docker-registry}}
 
-      - run: docker compose -f $docker_compose_file pull
-      - run: docker compose -f $docker_compose_file up -d
+      - run: docker compose -f ${{env.docker_compose_file}} pull
+      - run: docker compose -f ${{env.docker_compose_file}} up -d
       - run: docker image prune -f
