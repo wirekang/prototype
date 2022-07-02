@@ -23,23 +23,27 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn lint
 
-      - run: PASSWORD=${{secrets.PASSWORD}} . scripts/decrypt.sh
-      - run: cat "secrets/out/github-actions.env" >> $GITHUB_ENV
-      - run: cp secrets/out/config.test.json config.json
+      - name: Decrypt
+        run: |
+          PASSWORD=${{secrets.PASSWORD}} . scripts/decrypt.sh
+          cat "secrets/out/github-actions.prod.env" >> $GITHUB_ENV
+
+      - name: Copy test config
+        run: cp secrets/out/config.test.json config.json
 
       - run: yarn test
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: $AWS_ACCESS_KEY_ID
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
-          aws-region: $AWS_REGION
+          aws-access-key-id: $aws_access_key_id
+          aws-secret-access-key: $aws_secret_access_key
+          aws-region: $aws_region
 
       - name: Login to ECR
         uses: docker/login-action@v2
         with:
-          registry: $MY_DOCKER_REGISTRY
+          registry: $docker-registry
 
       - name: Create ECR Repositories
         run: |
@@ -50,13 +54,13 @@ jobs:
           done
 
       - name: Set DOCKER_REGISTRY
-        run: echo "DOCKER_REGISTRY=$MY_DOCKER_REGISTRY" >> $GITHUB_ENV
+        run: echo "DOCKER_REGISTRY=$docker_registry" >> $GITHUB_ENV
 
-      - run: docker compose -f ${{ env.docker-compose-file }} build
-      - run: docker compose -f ${{ env.docker-compose-file }} push
+      - run: docker compose -f $docker_compose_file build
+      - run: docker compose -f $docker_compose_file push
 
       - name: Set DOCKER_HOST
-        run: echo "DOCKER_HOST=ssh://$REMOTE_USER@$REMOTE_HOST" >> $GITHUB_ENV
+        run: echo "DOCKER_HOST=ssh://$remote_user@$remote_host" >> $GITHUB_ENV
 
       - run: echo "SSH_KEY=$(cat secrets/out/key.pem)" >> $GITHUB_ENV
 
@@ -66,13 +70,13 @@ jobs:
           ssh-private-key: $SSH_KEY
 
       - name: Append to known_hosts
-        run: ssh-keyscan -H $REMOTE_HOST >> ~/.ssh/known_hosts
+        run: ssh-keyscan -H $remote_host >> ~/.ssh/known_hosts
 
       - name: Login to ECR for remote Docker host
         uses: docker/login-action@v2
         with:
-          registry: $MY_DOCKER_REGISTRY
+          registry: $docker_registry
 
-      - run: docker compose -f $DOCKER_COMPOSE_FILE pull
-      - run: docker compose -f $DOCKER_COMPOSE_FILE up -d
+      - run: docker compose -f $docker_compose_file pull
+      - run: docker compose -f $docker_compose_file up -d
       - run: docker image prune -f
