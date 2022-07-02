@@ -81,6 +81,9 @@ jobs:
         with:
           registry: ${{ env.docker_registry }}
 
+      - name: Copy config
+        run: cp secrets/out/config.prod.json config.json
+
       - run: docker compose -f ${{ env.docker_compose_file }} pull
       - run: docker compose -f ${{ env.docker_compose_file }} up -d
       - run: docker image prune -f
