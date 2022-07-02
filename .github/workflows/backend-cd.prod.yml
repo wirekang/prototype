@@ -64,9 +64,9 @@ jobs:
 
       - name: Set SSH_KEY from secrets/out/key.pem
         run: |
-          echo "SSH_KEY<<EOF" >>$$GITHUB_ENV
+          echo "SSH_KEY<<^^^^^^^^" >> $GITHUB_ENV
           cat secrets/out/key.pem >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "^^^^^^^^" >> $GITHUB_ENV
 
       - name: Add SSH Key
         uses: webfactory/ssh-agent@v0.5.4
