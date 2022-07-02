@@ -1,3 +1,3 @@
 #!/bin/bash
-. secrets/out/production-server
-ssh -i secrets/key.pem $SERVER_USER@$SERVER_HOST
+. secrets/out/github-actions.env
+ssh -i secrets/out/key.pem $REMOTE_USER@$REMOTE_HOST
