@@ -63,7 +63,7 @@ jobs:
         run: echo "DOCKER_HOST=ssh://${{ env.remote_user }}@${{ env.remote_host }}" >> $GITHUB_ENV
 
       - name: Set SSH_KEY from secrets/out/key.pem
-      - run: |
+        run: |
           echo "SSH_KEY<<EOF" >>$$GITHUB_ENV
           cat secrets/out/key.pem >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
