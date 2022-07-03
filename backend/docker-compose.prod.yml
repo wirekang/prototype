@@ -17,7 +17,7 @@ services:
       context: .
       dockerfile: ./nginx/Dockerfile.prod
     volumes:
-      - /etc/letsencrypt/live/test.install.express:/etc/ssl
+      - /etc/letsencrypt/archive/test.install.express:/etc/ssl
     ports:
       - 443:443
     networks:
