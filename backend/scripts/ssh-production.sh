@@ -1,3 +1,3 @@
 #!/bin/bash
-. secrets/out/github-actions.env
-ssh -i secrets/out/key.pem $REMOTE_USER@$REMOTE_HOST
+. secrets/out/github-actions.prod.env
+ssh -i secrets/out/key.pem $remote_user@$remote_host
