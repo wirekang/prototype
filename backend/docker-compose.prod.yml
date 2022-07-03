@@ -19,8 +19,8 @@ services:
     image: ${DOCKER_REGISTRY}/nginx
     container_name: my-nginx-prod
     build:
-      context: ./nginx
-      dockerfile: ./Dockerfile.prod
+      context: .
+      dockerfile: ./nginx/Dockerfile.prod
     ports:
       - 80:80
     networks:
