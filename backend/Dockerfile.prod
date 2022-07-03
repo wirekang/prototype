@@ -1,4 +1,9 @@
 FROM node:16.15.1-alpine
+
+ENV NODE_ENV=production
+ENV MY_ENV=prod
+EXPOSE 4444
+
 WORKDIR /app
 COPY . .
 RUN yarn install --silent --frozen-lockfile

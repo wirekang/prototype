@@ -1,4 +1,9 @@
 FROM node:16.15.1-alpine
+
+ENV NODE_ENV=development
+ENV MY_ENV=local
+EXPOSE 4444
+
 WORKDIR /app
 COPY . .
 COPY secrets/out/config.local.json .

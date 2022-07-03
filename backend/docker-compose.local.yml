@@ -4,14 +4,10 @@ services:
     container_name: my-api-local
     image: my-api-local
     build:
+      context: .
       dockerfile: ./Dockerfile.local
-    environment:
-      MY_ENV: local
-      NODE_ENV: development
     ports:
       - 9229:9229
-    expose:
-      - 4444
     networks:
       - my-network
     restart: always
