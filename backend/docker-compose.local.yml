@@ -6,6 +6,7 @@ services:
     build:
       dockerfile: ./Dockerfile.local
     environment:
+      MY_ENV: local
       NODE_ENV: development
     ports:
       - 9229:9229
@@ -16,9 +17,6 @@ services:
     restart: always
     volumes:
       - ./:/app
-      - type: bind
-        source: ./secrets/out/config.local.json
-        target: /app/config.json
 
   nginx:
     image: nginx:latest

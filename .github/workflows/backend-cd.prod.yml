@@ -28,9 +28,6 @@ jobs:
           PASSWORD=${{ secrets.PASSWORD }} . scripts/decrypt.sh
           cat "secrets/out/github-actions.prod.env" >> $GITHUB_ENV
 
-      - name: Copy test config
-        run: cp secrets/out/config.test.json config.json
-
       - run: yarn test
 
       - name: Configure AWS Credentials
@@ -80,9 +77,6 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ${{ env.docker_registry }}
-
-      - name: Copy config
-        run: cp secrets/out/config.prod.json config.json
 
       - run: docker compose -f ${{ env.docker_compose_file }} pull
       - run: docker compose -f ${{ env.docker_compose_file }} up -d
