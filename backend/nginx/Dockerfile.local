@@ -1,0 +1,5 @@
+FROM nginx:latest
+
+COPY ./nginx/nginx.local.conf /etc/nginx/nginx.conf
+COPY ./secrets/out/localhost.crt /etc/nginx/ssl/live/localhost/localhost.crt
+COPY ./secrets/out/localhost.key /etc/nginx/ssl/live/localhost/localhost.key

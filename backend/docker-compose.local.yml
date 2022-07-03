@@ -19,30 +19,25 @@ services:
       - ./:/app
 
   nginx:
-    image: nginx:latest
     container_name: my-nginx-local
+    image: my-nginx-local
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile.local
     ports:
       - 443:443
     networks:
       - my-network
     restart: always
-    volumes:
-      - type: bind
-        source: ./nginx/nginx.local.conf
-        target: /etc/nginx/nginx.conf
-      - ./nginx/localhost-ssl:/etc/nginx/ssl/live/localhost
 
   db:
-    image: mariadb:10.6
     container_name: my-db-local
+    image: my-db-local
+    build:
+      context: .
+      dockerfile: db/Dockerfile.local
     ports:
       - 3306:3306
-    volumes:
-      - ./db/conf.local:/etc/mysql/conf.d
-      - ./db/init.local:/docker-entrypoint-initdb.d
-    environment:
-      MARIADB_ROOT_PASSWORD: asdf
-      TZ: Asia/Seoul
     networks:
       - my-network
     restart: always

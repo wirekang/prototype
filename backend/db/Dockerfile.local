@@ -1,0 +1,7 @@
+FROM mariadb:10.6
+
+ENV MARIADB_ROOT_PASSWORD=asdf
+ENV TZ=Asia/Seoul
+
+COPY ./db/init.local.sql /docker-entrypoint-initdb.d/init.sql
+COPY ./db/my.local.cnf /etc/mysql/conf.d/my.cnf
