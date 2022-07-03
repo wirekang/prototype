@@ -1,1 +1,2 @@
 CREATE USER 'myuser'@'%' IDENTIFIED BY "asdf1234";
+CREATE DATABASE `mydb`;

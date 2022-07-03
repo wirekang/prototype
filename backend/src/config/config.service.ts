@@ -29,17 +29,18 @@ export class ConfigService {
   }
 
   getString(key: string): string {
-    const v = this.get(key, 'string');
-    return v;
+    return this.get(key, 'string');
   }
 
   getNumber(key: string): string {
-    const v = this.get(key, 'number');
-    return v;
+    return this.get(key, 'number');
   }
 
   getBoolean(key: string): boolean {
-    const v = this.get(key, 'boolean');
-    return v;
+    return this.get(key, 'boolean');
+  }
+
+  getObject(key: string): any {
+    return this.get(key, 'object');
   }
 }
