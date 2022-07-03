@@ -6,6 +6,6 @@ EXPOSE 4444
 
 WORKDIR /app
 COPY . .
-RUN yarn install --silent --frozen-lockfile
+RUN yarn install --silent --frozen-lockfile --production=false
 RUN yarn build
 CMD node dist/main
