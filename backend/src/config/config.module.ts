@@ -7,6 +7,11 @@ import { ConfigService } from './config.service';
     {
       provide: ConfigService,
       useFactory: async () => {
+        let env = process.env.MY_ENV;
+        if (process.env.NODE_ENV === 'test') {
+          env = 'test';
+        }
+
         return ConfigService.create(
           path.join(
             __dirname,
@@ -14,7 +19,7 @@ import { ConfigService } from './config.service';
             '..',
             'secrets',
             'out',
-            `config.${process.env.MY_ENV}.json`,
+            `config.${env}.json`,
           ),
         );
       },
